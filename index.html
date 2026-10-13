@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منصة اختبار الرياضيات 3 - مراجعة الدروس الخمسة الأولى</title>
+  <title>اختبار الرياضيات 3 التفاعلي - إعداد: ياسر سجاد</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- MathJax for rendering math equations -->
+  <!-- MathJax -->
   <script>
     window.MathJax = {
       tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
@@ -18,8 +18,8 @@
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
   <style>
     body { font-family: 'Cairo', sans-serif; }
-    .correct-anim { animation: pulseGreen 0.4s ease-in-out; }
-    .wrong-anim { animation: shakeRed 0.4s ease-in-out; }
+    .correct-anim { animation: pulseGreen 0.35s ease-in-out; }
+    .wrong-anim { animation: shakeRed 0.35s ease-in-out; }
     @keyframes pulseGreen {
       0% { transform: scale(1); }
       50% { transform: scale(1.02); }
@@ -27,54 +27,63 @@
     }
     @keyframes shakeRed {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
     }
     @media print {
       .no-print { display: none !important; }
       body { background: white !important; color: black !important; padding: 0 !important; }
       .page-break { page-break-after: always; break-after: page; }
+      .print-box { border: 1px solid #000 !important; color: #000 !important; background: transparent !important; }
     }
   </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen pb-16 selection:bg-blue-600 selection:text-white">
 
-  <!-- شريط التحكم العلوي ورصد الدرجات الحي -->
-  <header class="no-print sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-700 px-4 py-3 shadow-xl">
+  <!-- شريط التحكم العلوي ورصد الدرجات المباشر -->
+  <header class="no-print sticky top-0 z-50 bg-slate-900/95 backdrop-blur-md border-b border-slate-700 px-4 py-3 shadow-2xl">
     <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-black text-xl shadow-lg">∑</div>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-black text-xl shadow-lg">∑</div>
         <div>
-          <h1 class="font-bold text-sm sm:text-base text-white">اختبار مادة الرياضيات 3 (التفاعلي)</h1>
-          <p class="text-[11px] text-slate-400">شامل للدروس الـ 5 الأولى (20 سؤالاً تقييمياً)</p>
+          <h1 class="font-extrabold text-sm sm:text-base text-white">اختبار مادة الرياضيات 3 (المستوى الثالث الثانوي)</h1>
+          <p class="text-[11px] text-blue-300 font-semibold">إعداد وتصميم: الطالب ياسر سجاد</p>
         </div>
       </div>
 
-      <!-- رصيد النقاط والدرجات المباشر -->
-      <div class="flex items-center gap-4 bg-slate-800 border border-slate-700 px-4 py-1.5 rounded-2xl">
+      <!-- رصيد النقاط والدرجات الحي -->
+      <div class="flex items-center gap-4 bg-slate-800/90 border border-slate-700 px-4 py-1.5 rounded-2xl shadow">
         <div class="text-right">
-          <span class="text-[10px] text-slate-400 block font-semibold">درجتك الحالية</span>
+          <span class="text-[10px] text-slate-400 block font-bold">الدرجة المحققة</span>
           <span class="text-lg font-black text-amber-400"><span id="userTotalScore">0</span> <span class="text-xs text-slate-400">/ 30</span></span>
         </div>
         <div class="w-px h-8 bg-slate-700"></div>
-        <button onclick="window.print()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 shadow">
+        <button onclick="window.print()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 shadow">
           <span>طباعة A4</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- محتوى الاختبار -->
+  <!-- جسم الاختبار -->
   <main class="max-w-4xl mx-auto px-4 mt-6 space-y-8">
 
-    <!-- بطاقة الترحيب والتعليمات -->
-    <div class="bg-gradient-to-r from-blue-900/40 via-indigo-900/40 to-slate-800 border border-blue-500/30 rounded-2xl p-5 shadow-lg">
-      <h2 class="text-lg font-black text-blue-300 mb-1">تعليمات الاختبار الذكي</h2>
-      <p class="text-xs text-slate-300 leading-relaxed">
-        • يحتوي الاختبار على <strong>9 أسئلة اختيارية</strong> و <strong>5 أسئلة صح وخطأ</strong> يتم تصحيحها وإعطاؤك التبرير الرياضي فورياً.
-        <br>
-        • يحتوي على <strong>6 أسئلة مقالية</strong> يمكنك تدوين حلك بها ثم الضغط على "تحقق وقارن مع الإجابة" لمطابقة خطواتك وحساب درجاتك بدقة.
-      </p>
+    <!-- رسالة ترحيبية من ياسر لزملائه -->
+    <div class="bg-gradient-to-r from-blue-950 via-slate-800 to-slate-900 border border-blue-500/40 rounded-2xl p-5 shadow-xl relative overflow-hidden">
+      <div class="relative z-10">
+        <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+          <span class="bg-blue-600/30 text-blue-300 border border-blue-400/30 text-[11px] px-3 py-1 rounded-full font-bold">مراجعة ما قبل الاختبار</span>
+          <span class="text-xs text-amber-300 font-bold">شامل للدروس: 1-1 إلى 1-5</span>
+        </div>
+        <h2 class="text-lg font-black text-white mb-1">أهلاً بكم يا شباب في هذا النموذج التدريبي</h2>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          صممت لكم هذا الاختبار ليحاكي تماماً أسلوب المعلم وتوزيع الأسئلة الوزاري، لتتأكدوا من فهمكم وتثبيت معلوماتكم قبل دخول القاعة.
+          <br>
+          <span class="text-emerald-400 font-bold">• الأسئلة الموضوعية (14 سؤالاً):</span> يُصححها النظام ذاتياً فور الضغط على إجابتك ويعطيك التبرير الرياضي.
+          <br>
+          <span class="text-purple-400 font-bold">• الأسئلة المقالية (6 أسئلة):</span> اكتب خطواتك، ثم اضغط على "تحقق وقارن" لتقييم حلك بنفسك.
+        </p>
+      </div>
     </div>
 
     <!-- ============================================== -->
@@ -83,211 +92,211 @@
     <section class="space-y-4">
       <div class="flex items-center justify-between border-b border-slate-700 pb-2">
         <h3 class="font-extrabold text-base sm:text-lg text-emerald-400">القسم الأول: أسئلة الاختيار من متعدد (9 أسئلة - 9 درجات)</h3>
-        <span class="text-xs bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-0.5 rounded-full font-bold">1 درجة لكل سؤال</span>
+        <span class="text-xs bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-0.5 rounded-full font-bold">1 درجة لكل فقرة</span>
       </div>
 
-      <!-- س1 -->
+      <!-- س1: الإجابة الصحيحة (جـ) -->
       <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="mcq-card-1">
         <div class="flex justify-between items-start gap-2 mb-3">
-          <span class="font-bold text-sm text-slate-100">1) ما هو مجال الدالة: $f(x) = \dfrac{5}{\sqrt{x - 3}}$ ؟</span>
+          <span class="font-bold text-sm text-slate-100">1) ما هو مجال الدالة الكسرية الجذرية: $f(x) = \dfrac{5}{\sqrt{x - 3}}$ ؟</span>
           <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-1</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <button onclick="checkMCQ(1, 'A', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition flex items-center justify-between">
-            <span>أ) $[3, \infty)$</span>
+          <button onclick="checkMCQ(1, 'A', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            أ) $[3, \infty)$
           </button>
-          <button onclick="checkMCQ(1, 'B', true)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition flex items-center justify-between">
-            <span>ب) $(3, \infty)$</span>
+          <button onclick="checkMCQ(1, 'B', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            ب) $(-\infty, 3)$
           </button>
-          <button onclick="checkMCQ(1, 'C', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition flex items-center justify-between">
-            <span>جـ) $(-\infty, 3)$</span>
+          <button onclick="checkMCQ(1, 'C', true, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            جـ) $(3, \infty)$
           </button>
-          <button onclick="checkMCQ(1, 'D', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition flex items-center justify-between">
-            <span>د) $\mathbb{R} \setminus \{3\}$</span>
+          <button onclick="checkMCQ(1, 'D', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            د) $\mathbb{R} \setminus \{3\}$
           </button>
         </div>
         <div class="feedback hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
       </div>
 
-      <!-- س2 -->
+      <!-- س2: الإجابة الصحيحة (أ) -->
       <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="mcq-card-2">
         <div class="flex justify-between items-start gap-2 mb-3">
-          <span class="font-bold text-sm text-slate-100">2) كتابة المجموعة $\{8, 9, 10, 11, \dots\}$ باستعمال الصفة المميزة هي:</span>
+          <span class="font-bold text-sm text-slate-100">2) التعبير عن المجموعة $\{8, 9, 10, 11, \dots\}$ باستعمال الصفة المميزة للمجموعة هو:</span>
           <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-1</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <button onclick="checkMCQ(2, 'A', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>أ) $\{x \mid x > 8, x \in \mathbb{W}\}$</span>
+          <button onclick="checkMCQ(2, 'A', true, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            أ) $\{x \mid x \ge 8, x \in \mathbb{N}\}$
           </button>
-          <button onclick="checkMCQ(2, 'B', true)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>ب) $\{x \mid x \ge 8, x \in \mathbb{N}\}$</span>
+          <button onclick="checkMCQ(2, 'B', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            ب) $\{x \mid x > 8, x \in \mathbb{W}\}$
           </button>
-          <button onclick="checkMCQ(2, 'C', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>جـ) $\{x \mid x \le 8, x \in \mathbb{Z}\}$</span>
+          <button onclick="checkMCQ(2, 'C', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            جـ) $\{x \mid x \le 8, x \in \mathbb{Z}\}$
           </button>
-          <button onclick="checkMCQ(2, 'D', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>د) $\{x \mid 8 \le x \le 11, x \in \mathbb{R}\}$</span>
+          <button onclick="checkMCQ(2, 'D', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            د) $\{x \mid 8 \le x \le 11, x \in \mathbb{R}\}$
           </button>
         </div>
         <div class="feedback hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
       </div>
 
-      <!-- س3 -->
+      <!-- س3: الإجابة الصحيحة (د) -->
       <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="mcq-card-3">
         <div class="flex justify-between items-start gap-2 mb-3">
           <span class="font-bold text-sm text-slate-100">3) أيٌّ من الدوال التالية تُعد دالة زوجية (متماثلة حول المحور $y$)؟</span>
           <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-2</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <button onclick="checkMCQ(3, 'A', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>أ) $f(x) = x^3 - 2x$</span>
+          <button onclick="checkMCQ(3, 'A', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            أ) $f(x) = x^3 - 2x$
           </button>
-          <button onclick="checkMCQ(3, 'B', true)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>ب) $f(x) = x^4 + 2$</span>
+          <button onclick="checkMCQ(3, 'B', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            ب) $f(x) = 3x + 1$
           </button>
-          <button onclick="checkMCQ(3, 'C', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>جـ) $f(x) = 3x + 1$</span>
+          <button onclick="checkMCQ(3, 'C', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            جـ) $f(x) = \dfrac{1}{x}$
           </button>
-          <button onclick="checkMCQ(3, 'D', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>د) $f(x) = \dfrac{1}{x}$</span>
+          <button onclick="checkMCQ(3, 'D', true, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            د) $f(x) = x^4 + 2$
           </button>
         </div>
         <div class="feedback hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
       </div>
 
-      <!-- س4 -->
+      <!-- س4: الإجابة الصحيحة (جـ) -->
       <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="mcq-card-4">
         <div class="flex justify-between items-start gap-2 mb-3">
           <span class="font-bold text-sm text-slate-100">4) المقطع $y$ لمنحنى الدالة $g(x) = |x - 5| - 1$ يساوي:</span>
           <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-2</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <button onclick="checkMCQ(4, 'A', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>أ) $-1$</span>
+          <button onclick="checkMCQ(4, 'A', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            أ) $-1$
           </button>
-          <button onclick="checkMCQ(4, 'B', true)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>ب) $4$</span>
+          <button onclick="checkMCQ(4, 'B', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            ب) $5$
           </button>
-          <button onclick="checkMCQ(4, 'C', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>جـ) $5$</span>
+          <button onclick="checkMCQ(4, 'C', true, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            جـ) $4$
           </button>
-          <button onclick="checkMCQ(4, 'D', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>د) $-6$</span>
+          <button onclick="checkMCQ(4, 'D', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            د) $-6$
           </button>
         </div>
         <div class="feedback hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
       </div>
 
-      <!-- س5 -->
+      <!-- س5: الإجابة الصحيحة (أ) -->
       <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="mcq-card-5">
         <div class="flex justify-between items-start gap-2 mb-3">
-          <span class="font-bold text-sm text-slate-100">5) نوع عدم الاتصال للدالة $f(x) = \begin{cases} 5x+4, & x > 2 \\ 2-x, & x \le 2 \end{cases}$ عند $x = 2$ هو:</span>
+          <span class="font-bold text-sm text-slate-100">5) نوع عدم الاتصال للدالة $f(x) = \begin{cases} 5x+4, & x > 2 \\ 2-x, & x \le 2 \end{cases}$ عند النقطة $x = 2$ هو:</span>
           <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-3</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <button onclick="checkMCQ(5, 'A', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>أ) عدم اتصال قابل للإزالة</span>
+          <button onclick="checkMCQ(5, 'A', true, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            أ) عدم اتصال قفزي
           </button>
-          <button onclick="checkMCQ(5, 'B', true)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>ب) عدم اتصال قفزي</span>
+          <button onclick="checkMCQ(5, 'B', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            ب) عدم اتصال قابل للإزالة
           </button>
-          <button onclick="checkMCQ(5, 'C', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>جـ) عدم اتصال لانهائي</span>
+          <button onclick="checkMCQ(5, 'C', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            جـ) عدم اتصال لانهائي
           </button>
-          <button onclick="checkMCQ(5, 'D', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>د) الدالة متصلة تماماً</span>
+          <button onclick="checkMCQ(5, 'D', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            د) الدالة متصلة تماماً
           </button>
         </div>
         <div class="feedback hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
       </div>
 
-      <!-- س6 -->
+      <!-- س6: الإجابة الصحيحة (د) -->
       <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="mcq-card-6">
         <div class="flex justify-between items-start gap-2 mb-3">
           <span class="font-bold text-sm text-slate-100">6) لسلوك طرف التمثيل البياني للدالة $f(x) = -2x^3 + 5x - 1$، فإن $\lim_{x \to \infty} f(x)$ يساوي:</span>
           <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-3</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <button onclick="checkMCQ(6, 'A', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>أ) $\infty$</span>
+          <button onclick="checkMCQ(6, 'A', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            أ) $\infty$
           </button>
-          <button onclick="checkMCQ(6, 'B', true)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>ب) $-\infty$</span>
+          <button onclick="checkMCQ(6, 'B', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            ب) $0$
           </button>
-          <button onclick="checkMCQ(6, 'C', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>جـ) $0$</span>
+          <button onclick="checkMCQ(6, 'C', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            جـ) $-1$
           </button>
-          <button onclick="checkMCQ(6, 'D', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>د) $-1$</span>
+          <button onclick="checkMCQ(6, 'D', true, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            د) $-\infty$
           </button>
         </div>
         <div class="feedback hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
       </div>
 
-      <!-- س7 -->
+      <!-- س7: الإجابة الصحيحة (ب) -->
       <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="mcq-card-7">
         <div class="flex justify-between items-start gap-2 mb-3">
           <span class="font-bold text-sm text-slate-100">7) متوسط معدل تغير الدالة $f(x) = x^2 - 3$ في الفترة $[1, 4]$ يساوي:</span>
           <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-4</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <button onclick="checkMCQ(7, 'A', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>أ) $3$</span>
+          <button onclick="checkMCQ(7, 'A', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            أ) $3$
           </button>
-          <button onclick="checkMCQ(7, 'B', true)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>ب) $5$</span>
+          <button onclick="checkMCQ(7, 'B', true, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            ب) $5$
           </button>
-          <button onclick="checkMCQ(7, 'C', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>جـ) $7$</span>
+          <button onclick="checkMCQ(7, 'C', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            جـ) $7$
           </button>
-          <button onclick="checkMCQ(7, 'D', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>د) $15$</span>
+          <button onclick="checkMCQ(7, 'D', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            د) $15$
           </button>
         </div>
         <div class="feedback hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
       </div>
 
-      <!-- س8 -->
+      <!-- س8: الإجابة الصحيحة (أ) -->
       <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="mcq-card-8">
         <div class="flex justify-between items-start gap-2 mb-3">
           <span class="font-bold text-sm text-slate-100">8) مدى دالة القيمة المطلقة الرئيسة (الأم) $f(x) = |x|$ هو:</span>
           <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-5</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <button onclick="checkMCQ(8, 'A', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>أ) $\mathbb{R}$</span>
+          <button onclick="checkMCQ(8, 'A', true, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            أ) $[0, \infty)$
           </button>
-          <button onclick="checkMCQ(8, 'B', true)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>ب) $[0, \infty)$</span>
+          <button onclick="checkMCQ(8, 'B', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            ب) $\mathbb{R}$
           </button>
-          <button onclick="checkMCQ(8, 'C', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>جـ) $(-\infty, 0]$</span>
+          <button onclick="checkMCQ(8, 'C', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            جـ) $(-\infty, 0]$
           </button>
-          <button onclick="checkMCQ(8, 'D', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>د) $\mathbb{Z}$</span>
+          <button onclick="checkMCQ(8, 'D', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            د) $\mathbb{Z}$
           </button>
         </div>
         <div class="feedback hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
       </div>
 
-      <!-- س9 -->
+      <!-- س9: الإجابة الصحيحة (جـ) -->
       <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="mcq-card-9">
         <div class="flex justify-between items-start gap-2 mb-3">
-          <span class="font-bold text-sm text-slate-100">9) منحنى الدالة $g(x) = \sqrt{x + 4} - 3$ ينتج من إزاحة منحنى الدالة الأم بمقدار:</span>
+          <span class="font-bold text-sm text-slate-100">9) منحنى الدالة $g(x) = \sqrt{x + 4} - 3$ ينتج من إزاحة منحنى الدالة الأم $f(x)=\sqrt{x}$ بمقدار:</span>
           <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-5</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-          <button onclick="checkMCQ(9, 'A', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>أ) 4 وحدات لليمين و 3 للأعلى</span>
+          <button onclick="checkMCQ(9, 'A', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            أ) 4 وحدات لليمين و 3 للأعلى
           </button>
-          <button onclick="checkMCQ(9, 'B', true)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>ب) 4 وحدات لليسار و 3 للأسفل</span>
+          <button onclick="checkMCQ(9, 'B', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            ب) 4 وحدات للأعلى و 3 لليمين
           </button>
-          <button onclick="checkMCQ(9, 'C', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>جـ) 4 وحدات للأعلى و 3 لليمين</span>
+          <button onclick="checkMCQ(9, 'C', true, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            جـ) 4 وحدات لليسار و 3 للأسفل
           </button>
-          <button onclick="checkMCQ(9, 'D', false)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
-            <span>د) 4 وحدات للأسفل و 3 لليسار</span>
+          <button onclick="checkMCQ(9, 'D', false, this)" class="opt-btn p-3 bg-slate-700/50 hover:bg-slate-700 text-right rounded-lg border border-slate-600 transition">
+            د) 4 وحدات للأسفل و 3 لليسار
           </button>
         </div>
         <div class="feedback hidden mt-3 p-3 rounded-lg text-xs leading-relaxed"></div>
@@ -295,93 +304,93 @@
     </section>
 
     <!-- ============================================== -->
-    <!-- القسم الثاني: الصح والخطأ (5 أسئلة) -->
+    <!-- القسم الثاني: الصح والخطأ (5 أسئلة - توزيع واقعي) -->
     <!-- ============================================== -->
     <section class="space-y-4">
       <div class="flex items-center justify-between border-b border-slate-700 pb-2">
         <h3 class="font-extrabold text-base sm:text-lg text-amber-400">القسم الثاني: أسئلة الصواب والخطأ (5 أسئلة - 5 درجات)</h3>
-        <span class="text-xs bg-amber-950 text-amber-300 border border-amber-800 px-2.5 py-0.5 rounded-full font-bold">1 درجة لكل عبارة</span>
+        <span class="text-xs bg-amber-950 text-amber-300 border border-amber-800 px-2.5 py-0.5 rounded-full font-bold">1 درجة لكل فقرة</span>
       </div>
 
-      <!-- س10 -->
+      <!-- س10: صواب (✓) -->
       <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="tf-card-10">
         <div class="flex justify-between items-start gap-2 mb-2">
-          <span class="font-bold text-sm text-slate-100">10) العلاقة الممثلة بالمعادلة $y^2 - 2x = 5$ تمثل دالة.</span>
-          <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-1</span>
-        </div>
-        <div class="flex gap-3 text-xs mt-2">
-          <button onclick="checkTF(10, true, false)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
-            ( ✓ ) صـواب
-          </button>
-          <button onclick="checkTF(10, false, true)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
-            ( ✗ ) خـطـأ
-          </button>
-        </div>
-        <div class="feedback hidden mt-2.5 p-2.5 rounded-lg text-xs leading-relaxed"></div>
-      </div>
-
-      <!-- س11 -->
-      <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="tf-card-11">
-        <div class="flex justify-between items-start gap-2 mb-2">
-          <span class="font-bold text-sm text-slate-100">11) إذا أدى استبدال $(-x, -y)$ بـ $(x, y)$ إلى معادلة مكافئة، فإن المنحنى متماثل حول نقطة الأصل.</span>
-          <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-2</span>
-        </div>
-        <div class="flex gap-3 text-xs mt-2">
-          <button onclick="checkTF(11, true, true)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
-            ( ✓ ) صـواب
-          </button>
-          <button onclick="checkTF(11, false, false)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
-            ( ✗ ) خـطـأ
-          </button>
-        </div>
-        <div class="feedback hidden mt-2.5 p-2.5 rounded-lg text-xs leading-relaxed"></div>
-      </div>
-
-      <!-- س12 -->
-      <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="tf-card-12">
-        <div class="flex justify-between items-start gap-2 mb-2">
-          <span class="font-bold text-sm text-slate-100">12) تكون الدالة متصلة عند $x=c$ إذا كانت النهاية $\lim_{x \to c} f(x)$ موجودة، بصرف النظر عن قيمة $f(c)$.</span>
-          <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-3</span>
-        </div>
-        <div class="flex gap-3 text-xs mt-2">
-          <button onclick="checkTF(12, true, false)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
-            ( ✓ ) صـواب
-          </button>
-          <button onclick="checkTF(12, false, true)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
-            ( ✗ ) خـطـأ
-          </button>
-        </div>
-        <div class="feedback hidden mt-2.5 p-2.5 rounded-lg text-xs leading-relaxed"></div>
-      </div>
-
-      <!-- س13 -->
-      <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="tf-card-13">
-        <div class="flex justify-between items-start gap-2 mb-2">
-          <span class="font-bold text-sm text-slate-100">13) تحدث القيمة العظمى المحلية للدالة عندما يتغير سلوك منحنى الدالة من التزايد إلى التناقص.</span>
-          <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-4</span>
-        </div>
-        <div class="flex gap-3 text-xs mt-2">
-          <button onclick="checkTF(13, true, true)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
-            ( ✓ ) صـواب
-          </button>
-          <button onclick="checkTF(13, false, false)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
-            ( ✗ ) خـطـأ
-          </button>
-        </div>
-        <div class="feedback hidden mt-2.5 p-2.5 rounded-lg text-xs leading-relaxed"></div>
-      </div>
-
-      <!-- س14 -->
-      <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="tf-card-14">
-        <div class="flex justify-between items-start gap-2 mb-2">
-          <span class="font-bold text-sm text-slate-100">14) التحويل الهندسي في الدالة $g(x) = 3f(x)$ يمثل تضيقاً رأسياً لمنحنى الدالة الأم $f(x)$.</span>
+          <span class="font-bold text-sm text-slate-100">10) مجال دالة المقلوب الرئيسة (الأم) $f(x) = \dfrac{1}{x}$ هو مجموعة الأعداد الحقيقية عدا الصفر $\mathbb{R} \setminus \{0\}$.</span>
           <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-5</span>
         </div>
         <div class="flex gap-3 text-xs mt-2">
-          <button onclick="checkTF(14, true, false)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
+          <button onclick="checkTF(10, true, true, this)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
             ( ✓ ) صـواب
           </button>
-          <button onclick="checkTF(14, false, true)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
+          <button onclick="checkTF(10, false, false, this)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
+            ( ✗ ) خـطـأ
+          </button>
+        </div>
+        <div class="feedback hidden mt-2.5 p-2.5 rounded-lg text-xs leading-relaxed"></div>
+      </div>
+
+      <!-- س11: خطأ (✗) -->
+      <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="tf-card-11">
+        <div class="flex justify-between items-start gap-2 mb-2">
+          <span class="font-bold text-sm text-slate-100">11) العلاقة الممثلة بالمعادلة $y^2 - 2x = 5$ تمثل دالة.</span>
+          <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-1</span>
+        </div>
+        <div class="flex gap-3 text-xs mt-2">
+          <button onclick="checkTF(11, true, false, this)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
+            ( ✓ ) صـواب
+          </button>
+          <button onclick="checkTF(11, false, true, this)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
+            ( ✗ ) خـطـأ
+          </button>
+        </div>
+        <div class="feedback hidden mt-2.5 p-2.5 rounded-lg text-xs leading-relaxed"></div>
+      </div>
+
+      <!-- س12: صواب (✓) -->
+      <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="tf-card-12">
+        <div class="flex justify-between items-start gap-2 mb-2">
+          <span class="font-bold text-sm text-slate-100">12) إذا كان تعويض $(-x)$ مكان $x$ وتعويض $(-y)$ مكان $y$ يعطي معادلة مكافئة، فإن المنحنى متماثل حول نقطة الأصل.</span>
+          <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-2</span>
+        </div>
+        <div class="flex gap-3 text-xs mt-2">
+          <button onclick="checkTF(12, true, true, this)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
+            ( ✓ ) صـواب
+          </button>
+          <button onclick="checkTF(12, false, false, this)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
+            ( ✗ ) خـطـأ
+          </button>
+        </div>
+        <div class="feedback hidden mt-2.5 p-2.5 rounded-lg text-xs leading-relaxed"></div>
+      </div>
+
+      <!-- س13: صواب (✓) -->
+      <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="tf-card-13">
+        <div class="flex justify-between items-start gap-2 mb-2">
+          <span class="font-bold text-sm text-slate-100">13) الدالة $f(x) = \dfrac{x^2 - 16}{x - 4}$ يكون نوع عدم الاتصال عندها عند $x = 4$ هو عدم اتصال قابل للإزالة.</span>
+          <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-3</span>
+        </div>
+        <div class="flex gap-3 text-xs mt-2">
+          <button onclick="checkTF(13, true, true, this)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
+            ( ✓ ) صـواب
+          </button>
+          <button onclick="checkTF(13, false, false, this)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
+            ( ✗ ) خـطـأ
+          </button>
+        </div>
+        <div class="feedback hidden mt-2.5 p-2.5 rounded-lg text-xs leading-relaxed"></div>
+      </div>
+
+      <!-- س14: خطأ (✗) -->
+      <div class="q-card bg-slate-800/80 border border-slate-700 rounded-xl p-4 transition-all duration-300" id="tf-card-14">
+        <div class="flex justify-between items-start gap-2 mb-2">
+          <span class="font-bold text-sm text-slate-100">14) التحويل الهندسي في الدالة $g(x) = 3f(x)$ يمثل تضيقاً رأسياً لمنحنى الدالة الرئيسة الأم $f(x)$.</span>
+          <span class="text-[11px] text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded">الدرس 1-5</span>
+        </div>
+        <div class="flex gap-3 text-xs mt-2">
+          <button onclick="checkTF(14, true, false, this)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
+            ( ✓ ) صـواب
+          </button>
+          <button onclick="checkTF(14, false, true, this)" class="tf-btn flex-1 py-2.5 bg-slate-700/50 hover:bg-slate-700 rounded-lg border border-slate-600 font-bold transition">
             ( ✗ ) خـطـأ
           </button>
         </div>
@@ -394,26 +403,26 @@
     <!-- ============================================== -->
     <section class="space-y-5 page-break">
       <div class="flex items-center justify-between border-b border-slate-700 pb-2">
-        <h3 class="font-extrabold text-base sm:text-lg text-purple-400">القسم الثالث: الأسئلة المقالية وخطوات الحل (6 أسئلة - 16 درجة)</h3>
+        <h3 class="font-extrabold text-base sm:text-lg text-purple-400">القسم الثالث: الأسئلة المقالية والتحليل الرياضي (6 أسئلة - 16 درجة)</h3>
         <span class="text-xs bg-purple-950 text-purple-300 border border-purple-800 px-2.5 py-0.5 rounded-full font-bold">16 درجة</span>
       </div>
 
       <!-- مقالي 15 -->
       <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-4 space-y-3">
         <div class="flex justify-between items-start gap-2">
-          <span class="font-bold text-sm text-slate-100">15) إذا كان $f(x) = x^2 + 8x - 24$، فأوجد قيمة $f(6)$، وحدد مجال $g(x) = \dfrac{7x + 10}{x^2 + 8x + 15}$.</span>
+          <span class="font-bold text-sm text-slate-100">15) إذا كان $f(x) = x^2 + 8x - 24$، فأوجد قيمة $f(6)$، ثم حدد جبرياً مجال الدالة الكسرية: $g(x) = \dfrac{7x + 10}{x^2 + 8x + 15}$.</span>
           <span class="text-[11px] bg-slate-700 px-2 py-0.5 rounded text-amber-300 font-bold">[3 درجات]</span>
         </div>
-        <textarea placeholder="اكتب خطوات حلك هنا لتثبيتها..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-purple-500 h-20"></textarea>
-        <button onclick="toggleEssay(15)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
+        <textarea placeholder="اكتب خطوات حلك بالتفصيل..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-purple-500 h-20"></textarea>
+        <button onclick="toggleEssay(15)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition shadow">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
         
-        <div id="essay-ans-15" class="hidden bg-slate-900/90 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
+        <div id="essay-ans-15" class="hidden bg-slate-900/95 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
           <div class="text-emerald-400 font-bold">الحل النموذجي المعتمد:</div>
-          <p>• تعويض $x = 6$: $f(6) = 6^2 + 8(6) - 24 = 36 + 48 - 24 = 60$. (درجة ونصف)</p>
-          <p>• إيجاد مجال $g(x)$: نساوي المقام بالصفر $x^2 + 8x + 15 = 0 \implies (x+5)(x+3) = 0 \implies x = -5, -3$.</p>
-          <p>إذن المجال: $\mathbb{R} \setminus \{-5, -3\}$ أو $\{x \mid x \ne -5, x \ne -3, x \in \mathbb{R}\}$. (درجة ونصف)</p>
+          <p>• تعويض $x = 6$: $f(6) = 6^2 + 8(6) - 24 = 36 + 48 - 24 = 60$. [درجة ونصف]</p>
+          <p>• إيجاد مجال $g(x)$: نساوي المقام بالصفر لإيجاد القيم المستثناة:</p>
+          <p>$x^2 + 8x + 15 = 0 \implies (x+5)(x+3) = 0 \implies x = -5, -3$.</p>
+          <p>إذن المجال هو: $\mathbb{R} \setminus \{-5, -3\}$ أو $\{x \mid x \ne -5, x \ne -3, x \in \mathbb{R}\}$. [درجة ونصف]</p>
           
-          <!-- أزرار الرصد الذاتي للدرجة -->
           <div class="pt-2 border-t border-slate-800 flex items-center justify-between flex-wrap gap-2">
             <span class="text-[11px] text-slate-400">قيّم إجابتك وأضف الدرجة لمجموعك:</span>
             <div class="flex gap-1.5">
@@ -428,17 +437,17 @@
       <!-- مقالي 16 -->
       <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-4 space-y-3">
         <div class="flex justify-between items-start gap-2">
-          <span class="font-bold text-sm text-slate-100">16) أوجد جبرياً أصفار الدالة (مقاطع $x$)، وكذلك المقطع $y$ للدالة التربيعية: $f(x) = 2x^2 + x - 15$.</span>
+          <span class="font-bold text-sm text-slate-100">16) أوجد جبرياً أصفار الدالة (مقاطع المحور $x$)، وكذلك المقطع $y$ للدالة التربيعية: $f(x) = 2x^2 + x - 15$.</span>
           <span class="text-[11px] bg-slate-700 px-2 py-0.5 rounded text-amber-300 font-bold">[3 درجات]</span>
         </div>
         <textarea placeholder="اكتب تحليلك الرياضي هنا..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-purple-500 h-20"></textarea>
-        <button onclick="toggleEssay(16)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
+        <button onclick="toggleEssay(16)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition shadow">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
         
-        <div id="essay-ans-16" class="hidden bg-slate-900/90 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
+        <div id="essay-ans-16" class="hidden bg-slate-900/95 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
           <div class="text-emerald-400 font-bold">الحل النموذجي المعتمد:</div>
-          <p>• إيجاد أصفار الدالة: نضع $f(x) = 0 \implies 2x^2 + x - 15 = 0 \implies (2x - 5)(x + 3) = 0$.</p>
-          <p>إذن الأصفار هي: $x = \dfrac{5}{2} = 2.5$ و $x = -3$. (درجتان)</p>
-          <p>• المقطع $y$: نضع $x = 0 \implies f(0) = 2(0)^2 + 0 - 15 = -15$، والنقطة هي $(0, -15)$. (درجة واحدة)</p>
+          <p>• إيجاد الأصفار: نضع $f(x) = 0 \implies 2x^2 + x - 15 = 0 \implies (2x - 5)(x + 3) = 0$.</p>
+          <p>إذن الأصفار هي: $x = \dfrac{5}{2} = 2.5$ و $x = -3$، أي النقطتان $(\frac{5}{2}, 0)$ و $(-3, 0)$. [درجتان]</p>
+          <p>• إيجاد المقطع $y$: نضع $x = 0 \implies f(0) = 2(0)^2 + 0 - 15 = -15$، والنقطة $(0, -15)$. [درجة واحدة]</p>
           
           <div class="pt-2 border-t border-slate-800 flex items-center justify-between flex-wrap gap-2">
             <span class="text-[11px] text-slate-400">قيّم إجابتك وأضف الدرجة لمجموعك:</span>
@@ -454,16 +463,16 @@
       <!-- مقالي 17 -->
       <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-4 space-y-3">
         <div class="flex justify-between items-start gap-2">
-          <span class="font-bold text-sm text-slate-100">17) بيّن جبرياً ما إذا كانت الدالة $f(x) = x^3 - 3x$ زوجية أم فردية أم غير ذلك، واذكر نوع تماثلها.</span>
+          <span class="font-bold text-sm text-slate-100">17) بيّن جبرياً ما إذا كانت الدالة $f(x) = x^3 - 3x$ زوجية أم فردية أم غير ذلك، واذكر نوع تماثل منحناها.</span>
           <span class="text-[11px] bg-slate-700 px-2 py-0.5 rounded text-amber-300 font-bold">[درجتان]</span>
         </div>
         <textarea placeholder="اكتب خطوات التعويض بـ (-x)..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-purple-500 h-20"></textarea>
-        <button onclick="toggleEssay(17)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
+        <button onclick="toggleEssay(17)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition shadow">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
         
-        <div id="essay-ans-17" class="hidden bg-slate-900/90 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
+        <div id="essay-ans-17" class="hidden bg-slate-900/95 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
           <div class="text-emerald-400 font-bold">الحل النموذجي المعتمد:</div>
-          <p>• التعويض بـ $-x$: $f(-x) = (-x)^3 - 3(-x) = -x^3 + 3x = -(x^3 - 3x) = -f(x)$. (درجة)</p>
-          <p>• الاستنتاج: بما أن $f(-x) = -f(x)$ فالدالة <strong>فردية</strong>، ومنحناها <strong>متماثل حول نقطة الأصل</strong>. (درجة)</p>
+          <p>• تعويض $-x$ بالدالة: $f(-x) = (-x)^3 - 3(-x) = -x^3 + 3x = -(x^3 - 3x) = -f(x)$. [درجة]</p>
+          <p>• الاستنتاج: بما أن $f(-x) = -f(x)$ فالدالة <strong>فردية</strong>، ومنحناها <strong>متماثل حول نقطة الأصل</strong>. [درجة]</p>
           
           <div class="pt-2 border-t border-slate-800 flex items-center justify-between flex-wrap gap-2">
             <span class="text-[11px] text-slate-400">قيّم إجابتك وأضف الدرجة لمجموعك:</span>
@@ -483,13 +492,13 @@
           <span class="text-[11px] bg-slate-700 px-2 py-0.5 rounded text-amber-300 font-bold">[3 درجات]</span>
         </div>
         <textarea placeholder="اكتب حساب النهاية وإعادة تعريف الدالة..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-purple-500 h-20"></textarea>
-        <button onclick="toggleEssay(18)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
+        <button onclick="toggleEssay(18)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition shadow">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
         
-        <div id="essay-ans-18" class="hidden bg-slate-900/90 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
+        <div id="essay-ans-18" class="hidden bg-slate-900/95 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
           <div class="text-emerald-400 font-bold">الحل النموذجي المعتمد:</div>
           <p>1) بالتعويض المباشر $f(4) = \dfrac{0}{0}$ (عدم اتصال قابل للإزالة).</p>
-          <p>2) حساب النهاية: $\lim_{x \to 4} \dfrac{(x - 4)(x + 4)}{x - 4} = \lim_{x \to 4} (x + 4) = 4 + 4 = 8$. (درجة ونصف)</p>
-          <p>3) إعادة التعريف: $g(x) = \begin{cases} \dfrac{x^2 - 16}{x - 4}, & x \ne 4 \\ 8, & x = 4 \end{cases}$. (درجة ونصف)</p>
+          <p>2) حساب النهاية: $\lim_{x \to 4} \dfrac{(x - 4)(x + 4)}{x - 4} = \lim_{x \to 4} (x + 4) = 4 + 4 = 8$. [درجة ونصف]</p>
+          <p>3) إعادة التعريف: $g(x) = \begin{cases} \dfrac{x^2 - 16}{x - 4}, & x \ne 4 \\ 8, & x = 4 \end{cases}$. [درجة ونصف]</p>
           
           <div class="pt-2 border-t border-slate-800 flex items-center justify-between flex-wrap gap-2">
             <span class="text-[11px] text-slate-400">قيّم إجابتك وأضف الدرجة لمجموعك:</span>
@@ -509,13 +518,13 @@
           <span class="text-[11px] bg-slate-700 px-2 py-0.5 rounded text-amber-300 font-bold">[2.5 درجة]</span>
         </div>
         <textarea placeholder="اكتب قانون معدل التغير والتعويض..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-purple-500 h-20"></textarea>
-        <button onclick="toggleEssay(19)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
+        <button onclick="toggleEssay(19)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition shadow">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
         
-        <div id="essay-ans-19" class="hidden bg-slate-900/90 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
+        <div id="essay-ans-19" class="hidden bg-slate-900/95 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
           <div class="text-emerald-400 font-bold">الحل النموذجي المعتمد:</div>
-          <p>• القانون: $m_{sec} = \dfrac{d(t_2) - d(t_1)}{t_2 - t_1} = \dfrac{d(2) - d(0)}{2 - 0}$. (درجة)</p>
+          <p>• القانون: $m_{sec} = \dfrac{d(t_2) - d(t_1)}{t_2 - t_1} = \dfrac{d(2) - d(0)}{2 - 0}$. [درجة]</p>
           <p>• حساب القيم: $d(2) = 16(2)^2 = 64 \text{ ft}$، و $d(0) = 0$.</p>
-          <p>• السرعة المتوسطة = $\dfrac{64 - 0}{2} = 32 \text{ ft/sec}$ (قدم لكل ثانية). (درجة ونصف)</p>
+          <p>• السرعة المتوسطة = $\dfrac{64 - 0}{2} = 32 \text{ ft/sec}$ (قدم لكل ثانية). [درجة ونصف]</p>
           
           <div class="pt-2 border-t border-slate-800 flex items-center justify-between flex-wrap gap-2">
             <span class="text-[11px] text-slate-400">قيّم إجابتك وأضف الدرجة لمجموعك:</span>
@@ -531,18 +540,18 @@
       <!-- مقالي 20 -->
       <div class="bg-slate-800/90 border border-slate-700 rounded-xl p-4 space-y-3">
         <div class="flex justify-between items-start gap-2">
-          <span class="font-bold text-sm text-slate-100">20) صف التحويلات الهندسية للدالة $g(x) = -(x - 2)^2 + 4$ بالنسبة للدالة الأم $f(x) = x^2$ وحدد إحداثيات الرأس.</span>
+          <span class="font-bold text-sm text-slate-100">20) صف التحويلات الهندسية للدالة $g(x) = -(x - 2)^2 + 4$ بالنسبة للدالة الأم $f(x) = x^2$ وحدد نقطة رأس القطع المكافئ.</span>
           <span class="text-[11px] bg-slate-700 px-2 py-0.5 rounded text-amber-300 font-bold">[2.5 درجة]</span>
         </div>
         <textarea placeholder="اكتب التحويلات الثلاثة وإحداثي الرأس..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-purple-500 h-20"></textarea>
-        <button onclick="toggleEssay(20)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
+        <button onclick="toggleEssay(20)" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-xs font-bold rounded-lg transition shadow">تحقق وقارن مع الإجابة النموذجية ومعايير التصحيح</button>
         
-        <div id="essay-ans-20" class="hidden bg-slate-900/90 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
+        <div id="essay-ans-20" class="hidden bg-slate-900/95 border border-purple-500/40 p-3 rounded-lg text-xs space-y-2 text-slate-200">
           <div class="text-emerald-400 font-bold">الحل النموذجي المعتمد:</div>
-          <p>1) إزاحة أفقية لليمين بمقدار وحدتين $(x - 2)$. (0.5 درجة)</p>
-          <p>2) انعكاس حول المحور $x$ لوجود إشارة السالب الخارجية. (0.5 درجة)</p>
-          <p>3) إزاحة رأسية للأعلى بمقدار 4 وحدات $(+4)$. (0.5 درجة)</p>
-          <p>• إحداثيات نقطة رأس المنحنى (العظمى المطلقة) هي $(2, 4)$. (درجة واحدة)</p>
+          <p>1) إزاحة أفقية لليمين بمقدار وحدتين $(x - 2)$. [نصف درجة]</p>
+          <p>2) انعكاس حول المحور $x$ لوجود إشارة السالب الخارجية $(-)$. [نصف درجة]</p>
+          <p>3) إزاحة رأسية للأعلى بمقدار 4 وحدات $(+4)$. [نصف درجة]</p>
+          <p>• إحداثيات نقطة رأس المنحنى (العظمى المطلقة) هي: $(2, 4)$. [درجة واحدة]</p>
           
           <div class="pt-2 border-t border-slate-800 flex items-center justify-between flex-wrap gap-2">
             <span class="text-[11px] text-slate-400">قيّم إجابتك وأضف الدرجة لمجموعك:</span>
@@ -556,42 +565,46 @@
       </div>
     </section>
 
-    <!-- رسالة ختامية وزر إعادة الاختبار -->
-    <div class="text-center pt-8 border-t border-slate-800">
-      <button onclick="location.reload()" class="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white rounded-xl text-xs font-bold transition">
-        إعادة تعيين الاختبار من البداية ↺
-      </button>
-    </div>
+    <!-- حقوق وتمنيات ياسر سجاد لزملائه في التذييل -->
+    <footer class="mt-12 pt-6 border-t border-slate-800 text-center space-y-2">
+      <div class="inline-block p-3 bg-gradient-to-r from-blue-900/30 to-indigo-900/30 rounded-2xl border border-blue-500/20">
+        <p class="font-bold text-sm text-amber-300">دعواتي وتمنياتي القلبية لجميع زملائي بالتوفيق والحصول على أعلى الدرجات بإذن الله ✨</p>
+        <p class="text-xs text-slate-400 mt-1">جميع الحقوق محفوظة | صمم بواسطة زميلكم: <strong class="text-white">ياسر سجاد</strong></p>
+      </div>
+      <div>
+        <button onclick="location.reload()" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition">
+          إعادة تعيين المحاولة ↺
+        </button>
+      </div>
+    </footer>
+
   </main>
 
-  <!-- نظام الجافاسكريبت والتصحيح التفاعلي -->
+  <!-- الكود البرمجي التفاعلي المطور -->
   <script>
-    // تتبع الدرجات
-    const objectiveScores = {}; // للأسئلة من 1 إلى 14
+    const objectiveScores = {};
     const essayScores = { 15: 0, 16: 0, 17: 0, 18: 0, 19: 0, 20: 0 };
 
-    // تبريرات الأسئلة الموضوعية
     const mcqExplanations = {
-      1: "ما تحت الجذر في المقام يجب أن يكون أكبر قطباً من الصفر: $x - 3 > 0 \\implies x > 3$، وبالتالي الفترة مفتوحة $(3, \\infty)$.",
-      2: "تبدأ المجموعة من 8 وتزداد كأعداد صحيحة طبيعية موجبة: $\\{x \\mid x \\ge 8, x \\in \\mathbb{N}\\}$.",
+      1: "ما تحت الجذر في المقام يجب أن يكون أكبر تماماً من الصفر: $x - 3 > 0 \\implies x > 3$، وبالتالي الفترة مفتوحة $(3, \\infty)$.",
+      2: "تبدأ المجموعة من العدد 8 وتزداد كأعداد صحيحة موجبة (طبيعية): $\\{x \\mid x \\ge 8, x \\in \\mathbb{N}\\}$.",
       3: "الدالة $x^4 + 2$ جميع أسسها زوجية مع حد ثابت، لذا $f(-x) = (-x)^4 + 2 = x^4 + 2 = f(x)$.",
       4: "لإيجاد المقطع $y$ نضع $x = 0$: $g(0) = |0 - 5| - 1 = 5 - 1 = 4$.",
-      5: "النهاية من اليمين تساوي $5(2)+4 = 14$ بينما من اليسار $2-2=0$، النهايتان موجودتان ومختلفتان (عدم اتصال قفزي).",
-      6: "الحد ذو الأس الأعلى هو $-2x^3$، وعندما يقترب $x$ من $\\infty$ فإن سالب ضرب ما لا نهاية يعطي $-\\infty$.",
-      7: "متوسط التغير: $\\dfrac{f(4) - f(1)}{4 - 1} = \\dfrac{(13) - (-2)}{3} = \\dfrac{15}{3} = 5$.",
-      8: "مخرجات القيمة المطلقة الرئيسة دائماً غير سالبة وتبدأ من الصفر للأعلى $[0, \\infty)$.",
-      9: "الزيادة في الداخل تعني إزاحة أفقية لليسار بـ 4 وحدات، والنقصان في الخارج يعني إزاحة رأسية لأسفل بـ 3 وحدات."
+      5: "النهاية من اليمين تساوي $5(2)+4 = 14$ ومن اليسار $2-2=0$، النهايتان موجودتان ومختلفتان (عدم اتصال قفزي).",
+      6: "الحد الرئيسي هو $-2x^3$، وعندما يقترب $x$ من $\\infty$ فإن سالب ضرب ما لا نهاية يعطي $-\\infty$.",
+      7: "متوسط معدل التغير: $\\dfrac{f(4) - f(1)}{4 - 1} = \\dfrac{13 - (-2)}{3} = \\dfrac{15}{3} = 5$.",
+      8: "مخرجات دالة القيمة المطلقة الرئيسة دائماً غير سالبة وتبدأ من الصفر $[0, \\infty)$.",
+      9: "الزيادة في الداخل $(+4)$ تعني إزاحة لليسار بمقدار 4 وحدات، والنقصان في الخارج $(-3)$ يعني إزاحة لأسفل بمقدار 3 وحدات."
     };
 
     const tfExplanations = {
-      10: "خطأ: المعادلة تكافئ $y = \\pm \\sqrt{2x + 5}$، ووجود إشارتين يعني أن العنصر يرتبط بأكثر من قيمة فلا تمثل دالة.",
-      11: "صواب: هذا هو التعريف الجبري الدقيق لاختبار التماثل حول نقطة الأصل.",
-      12: "خطأ: شرط الاتصال يتطلب أن تكون $f(c)$ معرفة وأن تساوي النهاية $f(c)$.",
-      13: "صواب: القيمة العظمى المحلية تمثل قمة يتغير المنحنى عندها من التزايد إلى التناقص.",
-      14: "خطأ: الضرب في عدد أكبر من 1 في الخارج يمثل توسعاً رأسياً وليس تضيقاً."
+      10: "صواب: مجال دالة المقلوب الرئيسة هو جميع الأعداد الحقيقية عدا صفر المقام وهو الصفر.",
+      11: "خطأ: تؤدي المعادلة إلى $y = \\pm \\sqrt{2x + 5}$، ووجود إشارتين يعني أن بعض عناصر المجال ترتبط بقيمتين فلا تمثل دالة.",
+      12: "صواب: هذا هو التعريف الجبري المعتمد لاختبار التماثل حول نقطة الأصل.",
+      13: "صواب: لأن النهاية عند $x = 4$ موجودة وتساوي 8 بالرغم من أن الدالة غير معرفة عند تلك النقطة.",
+      14: "خطأ: الضرب في عدد أكبر من الواحد $(3 > 1)$ في الخارج يمثل توسعاً رأسياً وليس تضيقاً."
     };
 
-    // مؤثرات صوتية بسيطة باستخدام متصفح الويب (Web Audio API)
     function playBeep(isSuccess) {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -601,42 +614,37 @@
         gain.connect(ctx.destination);
         
         if (isSuccess) {
-          osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-          osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1); // A5
+          osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+          osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1);
           gain.gain.setValueAtTime(0.15, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
           osc.start();
           osc.stop(ctx.currentTime + 0.25);
         } else {
-          osc.frequency.setValueAtTime(220, ctx.currentTime); // A3
+          osc.frequency.setValueAtTime(220, ctx.currentTime);
           gain.gain.setValueAtTime(0.15, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
           osc.start();
           osc.stop(ctx.currentTime + 0.25);
         }
-      } catch (e) {
-        // AudioContext not supported or blocked
-      }
+      } catch (e) {}
     }
 
-    // فحص الاختيارات (MCQ)
-    function checkMCQ(qNum, choice, isCorrect) {
+    function checkMCQ(qNum, choice, isCorrect, btnElement) {
       const card = document.getElementById(`mcq-card-${qNum}`);
       const feedback = card.querySelector('.feedback');
       const buttons = card.querySelectorAll('.opt-btn');
 
-      // تعطيل الأزرار لمنع التكرار العشوائي
       buttons.forEach(b => {
         b.classList.remove('bg-emerald-600', 'bg-rose-600', 'border-emerald-500', 'border-rose-500');
         b.classList.add('opacity-70');
       });
 
-      // تحديد الزر المختار
-      event.currentTarget.classList.remove('opacity-70');
+      btnElement.classList.remove('opacity-70');
 
       if (isCorrect) {
         playBeep(true);
-        event.currentTarget.classList.add('bg-emerald-600', 'border-emerald-400', 'text-white');
+        btnElement.classList.add('bg-emerald-600', 'border-emerald-400', 'text-white');
         card.classList.add('correct-anim', 'border-emerald-500');
         card.classList.remove('border-slate-700', 'border-rose-500');
         feedback.className = "feedback mt-3 p-3 rounded-lg text-xs leading-relaxed bg-emerald-950/80 border border-emerald-500 text-emerald-200 block";
@@ -644,7 +652,7 @@
         objectiveScores[qNum] = 1;
       } else {
         playBeep(false);
-        event.currentTarget.classList.add('bg-rose-600', 'border-rose-400', 'text-white');
+        btnElement.classList.add('bg-rose-600', 'border-rose-400', 'text-white');
         card.classList.add('wrong-anim', 'border-rose-500');
         card.classList.remove('border-slate-700', 'border-emerald-500');
         feedback.className = "feedback mt-3 p-3 rounded-lg text-xs leading-relaxed bg-rose-950/80 border border-rose-500 text-rose-200 block";
@@ -656,8 +664,7 @@
       if (window.MathJax) MathJax.typesetPromise([feedback]);
     }
 
-    // فحص أسئلة الصح والخطأ
-    function checkTF(qNum, userPick, isCorrect) {
+    function checkTF(qNum, userPick, isCorrect, btnElement) {
       const card = document.getElementById(`tf-card-${qNum}`);
       const feedback = card.querySelector('.feedback');
       const buttons = card.querySelectorAll('.tf-btn');
@@ -667,19 +674,19 @@
         b.classList.add('opacity-70');
       });
 
-      event.currentTarget.classList.remove('opacity-70');
+      btnElement.classList.remove('opacity-70');
 
       if (isCorrect) {
         playBeep(true);
-        event.currentTarget.classList.add('bg-emerald-600', 'border-emerald-400', 'text-white');
+        btnElement.classList.add('bg-emerald-600', 'border-emerald-400', 'text-white');
         card.classList.add('correct-anim', 'border-emerald-500');
         card.classList.remove('border-slate-700', 'border-rose-500');
         feedback.className = "feedback mt-2.5 p-2.5 rounded-lg text-xs leading-relaxed bg-emerald-950/80 border border-emerald-500 text-emerald-200 block";
-        feedback.innerHTML = `<strong>أحسنت! الإجابة صحيحة (✓):</strong> ${tfExplanations[qNum]}`;
+        feedback.innerHTML = `<strong>أحسنت! إجابة صحيحة (✓):</strong> ${tfExplanations[qNum]}`;
         objectiveScores[qNum] = 1;
       } else {
         playBeep(false);
-        event.currentTarget.classList.add('bg-rose-600', 'border-rose-400', 'text-white');
+        btnElement.classList.add('bg-rose-600', 'border-rose-400', 'text-white');
         card.classList.add('wrong-anim', 'border-rose-500');
         card.classList.remove('border-slate-700', 'border-emerald-500');
         feedback.className = "feedback mt-2.5 p-2.5 rounded-lg text-xs leading-relaxed bg-rose-950/80 border border-rose-500 text-rose-200 block";
@@ -691,20 +698,17 @@
       if (window.MathJax) MathJax.typesetPromise([feedback]);
     }
 
-    // إظهار/إخفاء نموذج السؤال المقالي
     function toggleEssay(num) {
       const el = document.getElementById(`essay-ans-${num}`);
       el.classList.toggle('hidden');
       if (window.MathJax) MathJax.typesetPromise([el]);
     }
 
-    // احتساب درجة السؤال المقالي
     function setEssayScore(qNum, score) {
       essayScores[qNum] = score;
       updateTotalDisplay();
     }
 
-    // تحديث عداد الدرجة الكلية في الترويسة
     function updateTotalDisplay() {
       let totalObj = Object.values(objectiveScores).reduce((a, b) => a + b, 0);
       let totalEss = Object.values(essayScores).reduce((a, b) => a + b, 0);
